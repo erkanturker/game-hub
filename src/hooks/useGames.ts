@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
-interface Game {
+export interface Game {
     id: number;
     name: string;
+    background_image: string
 }
 
 interface GamesPayload {
@@ -18,7 +19,7 @@ const useGames = () => {
 
     useEffect(() => {
         apiClient
-            .get<GamesPayload>("/sgames")
+            .get<GamesPayload>("/games")
             .then((res) => {
                 setGames(res.data.results);
             })
