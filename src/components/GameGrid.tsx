@@ -6,7 +6,6 @@ const GameGrid = () => {
 	const { games, error } = useGames();
 	return (
 		<div>
-			{error && <p>{error}</p>}
 			<SimpleGrid
 				columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
 				spacing={10}
@@ -16,6 +15,7 @@ const GameGrid = () => {
 					<GameCard key={game.id} game={game}></GameCard>
 				))}
 			</SimpleGrid>
+			{error && <p>{error}</p>}
 		</div>
 	);
 };

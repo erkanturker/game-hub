@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
+import mockGameData from "../../mockDataGames.json";
+
 
 export interface Game {
     id: number;
@@ -17,14 +19,20 @@ const useGames = () => {
     const [games, setGames] = useState<Game[]>([]);
     const [error, setError] = useState("");
 
+    const mockGames: GamesPayload = mockGameData;
+
+
     useEffect(() => {
         apiClient
-            .get<GamesPayload>("/games")
+            .get<GamesPayload>("/xgames")
             .then((res) => {
                 setGames(res.data.results);
             })
             .catch(
                 (err) => setError(err.message) // Set an error message
+            ).finally(
+                () => setGames(mockGames.results)
+
             );
     }, []);
 
