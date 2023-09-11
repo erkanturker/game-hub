@@ -3,10 +3,18 @@ import apiClient from "../services/api-client";
 import mockGameData from "../../mockDataGames.json";
 
 
+export interface Platform {
+    id: number;
+    name: string;
+    slug: string;
+}
+
 export interface Game {
     id: number;
     name: string;
-    background_image: string
+    background_image: string;
+    parent_platforms: { platform: Platform }[];
+    metacritic: number
 }
 
 interface GamesPayload {
