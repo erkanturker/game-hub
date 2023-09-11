@@ -26,25 +26,34 @@ const useGames = () => {
 
     const [games, setGames] = useState<Game[]>([]);
     const [error, setError] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
     const mockGames: GamesPayload = mockGameData;
 
 
     useEffect(() => {
+        setLoading(true);
         apiClient
             .get<GamesPayload>("/xgames")
             .then((res) => {
                 setGames(res.data.results);
+                setLoading(false);
             })
             .catch(
-                (err) => setError(err.message) // Set an error message
+                (err) => {
+                    setError(err.message);
+                    setLoading(false);
+                }
             ).finally(
-                () => setGames(mockGames.results)
+                () => {
+                    setGames(mockGames.results)
+                    setLoading(false)
+                }
 
             );
     }, []);
 
-    return { games, error }
+    return { games, error, isLoading }
 
 }
 
