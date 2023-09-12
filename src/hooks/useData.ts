@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
+import { AxiosRequestConfig } from "axios";
 
 // Define a generic Payload type that represents the structure of the API response.
 interface Payload<T> {
-    count: number;     // Total count of items
-    results: T[];      // Array of data items
+    count: number;
+    results: T[];
 }
 
 // Create a custom hook named "useData" that fetches data from an API endpoint.
-const useData = <T>(endpoint: string) => {
+const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?: any[]) => {
 
-    // Define state variables for the fetched data, errors, and loading status.
-    const [data, setData] = useState<T[]>([]);   // Initialize with an empty array.
-    const [error, setError] = useState("");       // Initialize with an empty string.
-    const [isLoading, setLoading] = useState(false);  // Initialize as not loading.
+    const [data, setData] = useState<T[]>([]);
+    const [error, setError] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
-    // Use the useEffect hook to fetch data when the component mounts.
     useEffect(() => {
-        setLoading(true);  // Set loading to true to indicate that a request is in progress.
+        setLoading(true);
 
-        // Use the "apiClient" to make a GET request to the specified "endpoint".
         apiClient
-            .get<Payload<T>>(endpoint)
+            .get<Payload<T>>(endpoint, { ...requestConfig })
             .then((res) => {
-                // On successful response, set the fetched data to the results.
                 setData(res.data.results);
-                setLoading(false);  // Set loading to false as the request is complete.
+                setLoading(false);
             })
             .catch((err) => {
                 // If an error occurs, set the error message and set loading to false.
@@ -33,7 +30,7 @@ const useData = <T>(endpoint: string) => {
                 setLoading(false);
             });
 
-    }, []); // The empty dependency array ensures this effect runs only once when mounted.
+    }, deps ? [...deps] : []); // The empty dependency array ensures this effect runs only once when mounted.
 
     // Return the data, error message, and loading status as an object.
     return { data, error, isLoading };
