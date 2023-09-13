@@ -43,7 +43,9 @@ const GenreList = ({ onSelectedGenre, selectedGenre }: Props) => {
 							variant="link"
 							fontSize={"large"}
 						>
-							{genre.name}
+							{genre.name.length > 12
+								? genre.name.substring(0, 10) + "..."
+								: genre.name}
 						</Button>
 					</HStack>
 				</ListItem>

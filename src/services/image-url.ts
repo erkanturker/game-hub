@@ -1,4 +1,8 @@
+import imageHolder from '../assets/no-image-placeholder-6f3882e0.webp';
+
 const getCroppedImageUrl = (url: string) => {
+    if (!url) return imageHolder
+
     // Define the target string to find within the URL.
     const target = "media/";
 
