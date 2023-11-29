@@ -6,7 +6,7 @@ const GameDetailsPage = () => {
 
     
    const {slug} = useParams();
-    console.log(slug);
+    
 
     const {data:game,isLoading,error} = useGame(slug!);
 
